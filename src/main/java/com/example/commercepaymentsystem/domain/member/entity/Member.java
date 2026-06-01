@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.example.commercepaymentsystem.domain.member.entity.MemberRole;
+
 
 import java.time.LocalDateTime;
 
@@ -23,7 +25,7 @@ public class Member {
     @Column(nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(nullable = false,  length = 30)
+    @Column(nullable = false,  length = 255)
     private String password;
 
     @Column(nullable = false,   length = 50)

@@ -6,10 +6,10 @@ import com.example.commercepaymentsystem.domain.auth.dto.SignupResponse;
 import com.example.commercepaymentsystem.domain.member.entity.Member;
 import com.example.commercepaymentsystem.domain.member.entity.MemberRole;
 import com.example.commercepaymentsystem.domain.member.repository.MemberRepository;
-import com.example.commercepaymentsystem.global.exception.CustomException;
+import com.example.commercepaymentsystem.global.error.BusinessException;
+import com.example.commercepaymentsystem.global.error.ErrorCode;
 import com.example.commercepaymentsystem.global.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class AuthService {
     @Transactional
     public SignupResponse signup(SignupRequest request) {
         if (memberRepository.existsByEmail(request.getEmail())) {
-            throw new CustomException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
         Member member = Member.builder()
@@ -43,10 +43,10 @@ public class AuthService {
     @Transactional(readOnly = true)
     public String login(LoginRequest request) {
         Member member = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new CustomException(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS));
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다.");
+            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
 
         return jwtUtil.generateToken(member.getId(), member.getEmail(),  member.getRole().name());

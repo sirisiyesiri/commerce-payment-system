@@ -1,0 +1,4 @@
+
+### 내 정보 조회
+GET http://localhost:8080/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzgwMjkxNjQyLCJleHAiOjE3ODAyOTUyNDJ9.EkIDlcWCN0XS_tlG1Z33RU39WRjla_rafp8QZInNgJM

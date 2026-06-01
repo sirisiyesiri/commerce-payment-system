@@ -8,23 +8,26 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
-    private static final String SUCCESS_CODE = "SUCCESS";
-    private final String code;
+    private final int httpStatus;
     private final String message;
     private final T data;
 
-    private ApiResponse(String code, String message, T data) {
-        this.code = code;
+    private ApiResponse(int httpStatus, String message, T data) {
+        this.httpStatus = httpStatus;
         this.message = message;
         this.data = data;
     }
 
     public static <T> ApiResponse<T> ok(T data) {
-        return new ApiResponse<>(SUCCESS_CODE, null, data);
+        return new ApiResponse<>(200, null, data);
     }
 
-    public static ApiResponse<Void> ok() {
-        return new ApiResponse<>(SUCCESS_CODE, null, null);
+    public static <T> ApiResponse<T> ok(T data) {
+        return new ApiResponse<>(201, null, data);
+    }
+
+    public static <T> ApiResponse<T> ok(T data) {
+        return new ApiResponse<>(204, null, data);
     }
 
     public static ApiResponse<Void> error(ErrorCode errorCode) {

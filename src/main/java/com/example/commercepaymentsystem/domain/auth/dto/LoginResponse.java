@@ -1,29 +1,28 @@
-package com.example.commercepaymentsystem.domain.member.dto;
+package com.example.commercepaymentsystem.domain.auth.dto;
 
 import com.example.commercepaymentsystem.domain.member.entity.Member;
+import lombok.Getter;
 
-public class GetMemberResponse {
+@Getter
+public class LoginResponse {
 
     private final Long userId;
     private final String email;
     private final String name;
-    private final String phone;
     private final String role;
 
-    public GetMemberResponse(Long userId, String email, String name, String phone, String role) {
+    public LoginResponse(Long userId, String email, String name, String role) {
         this.userId = userId;
         this.email = email;
         this.name = name;
-        this.phone = phone;
         this.role = role;
     }
 
-    public static GetMemberResponse from(Member member) {
-        return new GetMemberResponse(
+    public static LoginResponse from(Member member) {
+        return new LoginResponse(
                 member.getId(),
                 member.getEmail(),
                 member.getName(),
-                member.getPhone(),
                 member.getRole().name()
         );
     }

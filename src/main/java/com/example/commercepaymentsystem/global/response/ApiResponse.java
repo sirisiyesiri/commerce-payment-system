@@ -5,18 +5,18 @@ import lombok.Getter;
 @Getter
 public class ApiResponse<T> {
 
-    private final int status;
+    private final int httpstatus;
     private final String message;
     private final T data;
 
-    private ApiResponse(int status, String message, T data) {
-        this.status = status;
+    private ApiResponse(int httpstatus, String message, T data) {
+        this.httpstatus = httpstatus;
         this.message = message;
         this.data = data;
     }
 
-    public static <T>ApiResponse<T> of(int status, String message, T data) {
-        return new ApiResponse<T>(status, message, data);
+    public static <T>ApiResponse<T> of(int httpstatus, String message, T data) {
+        return new ApiResponse<T>(httpstatus, message, data);
     }
 
     public static <T>ApiResponse<T> ok(String message, T data) {

@@ -9,13 +9,11 @@ public class LoginResponse {
     private final Long userId;
     private final String email;
     private final String name;
-    private final String role;
 
-    public LoginResponse(Long userId, String email, String name, String role) {
+    public LoginResponse(Long userId, String email, String name) {
         this.userId = userId;
         this.email = email;
         this.name = name;
-        this.role = role;
     }
 
     public static LoginResponse from(User user) {

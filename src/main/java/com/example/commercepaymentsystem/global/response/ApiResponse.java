@@ -1,29 +1,41 @@
 package com.example.commercepaymentsystem.global.response;
 
+import com.example.commercepaymentsystem.global.error.ErrorCode;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
-    private final int httpstatus;
+    private static final String SUCCESS_CODE = "SUCCESS";
+    private final String code;
     private final String message;
     private final T data;
 
-    private ApiResponse(int httpstatus, String message, T data) {
-        this.httpstatus = httpstatus;
+    private ApiResponse(String code, String message, T data) {
+        this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public static <T>ApiResponse<T> of(int httpstatus, String message, T data) {
-        return new ApiResponse<T>(httpstatus, message, data);
+    public static <T> ApiResponse<T> ok(T data) {
+        return new ApiResponse<>(SUCCESS_CODE, null, data);
     }
 
-    public static <T>ApiResponse<T> ok(String message, T data) {
-        return new ApiResponse<T>(200, message, data);
+    public static ApiResponse<Void> ok() {
+        return new ApiResponse<>(SUCCESS_CODE, null, null);
     }
 
-    public static <T> ApiResponse<T> created(String message, T data) {
-        return new ApiResponse<>(201, message, data);
+    public static ApiResponse<Void> error(ErrorCode errorCode) {
+        return new ApiResponse<>(errorCode.getCode(), errorCode.getMessage(), null);
+    }
+
+    public static ApiResponse<Void> error(ErrorCode errorCode, String message) {
+        return new ApiResponse<>(errorCode.getCode(), message, null);
+    }
+
+    public static ApiResponse<Void> error(String code, String message) {
+        return new ApiResponse<>(code, message, null);
     }
 }

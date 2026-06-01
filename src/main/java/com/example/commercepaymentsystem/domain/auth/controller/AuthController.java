@@ -26,7 +26,7 @@ public class AuthController {
         SignupResponse response = authService.signup(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ApiResponse.created("회원가입 성공", response));
+                .body(ApiResponse.ok(response));
     }
 
     @PostMapping("/login")
@@ -39,6 +39,6 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(ApiResponse.ok("로그인 성공", null));
+                .body(ApiResponse.ok());
     }
 }

@@ -30,16 +30,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = resolveToken(request);
 
-        if(StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
+        if (StringUtils.hasText(token)) {
+            if (!jwtUtil.validateToken(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"code\":\"AUTH_002\",\"message\":\"유효하지 않은 토큰입니다.\"}");
+                return;
+            }
+
             Claims claims = jwtUtil.getClaims(token);
             Long memberId = Long.parseLong(claims.getSubject());
-            String role = claims.get("role", String.class);
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                             memberId,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
                     );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

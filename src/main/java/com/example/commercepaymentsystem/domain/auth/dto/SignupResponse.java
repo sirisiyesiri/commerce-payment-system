@@ -1,6 +1,6 @@
 package com.example.commercepaymentsystem.domain.auth.dto;
 
-import com.example.commercepaymentsystem.domain.member.entity.Member;
+import com.example.commercepaymentsystem.domain.member.entity.User;
 import lombok.Getter;
 
 @Getter
@@ -16,11 +16,11 @@ public class SignupResponse {
         this.name = name;
     }
 
-    public static SignupResponse from(Member member) {
+    public static SignupResponse from(User user) {
         return new SignupResponse(
-                member.getId(),
-                member.getEmail(),
-                member.getName()
+                user.getId(),
+                user.getEmail(),
+                user.getName()
         );
     }
 }
